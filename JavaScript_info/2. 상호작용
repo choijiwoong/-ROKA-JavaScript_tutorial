@@ -1,0 +1,37 @@
+	[상호작용_alert, prompt, confirm]
+1.	alert는 페이지의 나머지 부분과 상호작용이 불가능한 modal window라고 부르는 창이 출력된다. 확인버튼을 눌러얗만 modal창 바깥에서 행동을 할 수 있다.
+2.	prompt는 텍스트메시지와 input field, 확인 및 취소버튼이 있는 modal window를 출력한다.
+	let age=prompt("나이를 입력해", '');//title은 사용자에게 보여줄 내용, default는 input field의 default value이다.
+	alert('네 나이는 ${age}로구나');//String을 반환한다.
+3.	confirm은 question과 확인 및 취소 버튼이 있는 modal window를 출력하고, boolean을 반환한다.
+	let isHuman=confirm("Are you hunam?");
+	alert(IsHuman);
+	
+	[primitive의 형 변환]
+1.	let value=true;
+	alert(typeof value);//boolean
+
+	value=String(value);
+	alert(typeof value);//String
+2.	alert("6"/"2");
+3.	let str="123";
+	alert(typeof str);//String
+	
+	let num=Number(str);//숫자값을 문자기반폼으로 입력받는 경우에 사용하는 명시적 형 변환
+	alert(typeof num);//Number
+4.	문자열의 숫자화 캐스팅(대부분 NaN)
+	undefined->NaN
+	null->0
+	true&false->1&0
+	string->공백제거 후 문자열이 없으면 0, 있으면 숫자를 읽는데 변환에 실패하면 NaN
+	
+	alert(Number("    123   "));//123
+	alert(Number("123z"));//NaN
+	alert(Number(true));//1
+	alert(Number(false));//0
+5.	Boolean(value)을 통해 형변환 가능.
+	alert(Boolean(1));//true
+	alert(Boolean(0));//false
+	alert(Boolean("hello"));//true
+	alert(Boolean(""));//false
+	***  "0"은 true이다. 비어있지 않은 문자열이기 때문이다.   ***
