@@ -1,0 +1,73 @@
+	[Attribute of <script>] 현재는 잘 사용하지 않는다.
+1. 	<script type="text/javascript">처럼 HTML4에선 스트립트에 type를 명시하는 것이 필수였으나, 모던 HTML표준에서 이 속성의 의미가 바뀌어 타입명시가 필수가 아니다.
+2.	<script language=...>는 현재 사용중인 스크립트 언어를 나타내지만 자바스크립트가 기본언어이기에 사용할 필요가 없다.
+3.	스크립트 전후에 주석이 있는 것은, 15년 이전에 script를 처리하지 못하는 브라우저가 해당 스크립트를 읽지 못하게 사용하였다.
+	
+	[외부 스크립트]
+1.	js가 많은 경우, 파일로 소분한 다음에 <script src="/path/to/script.js"></script>와 같이 삽입할 수 있다.
+2.	하나의 스크립트는 하나의 src혹은 script밖에 못갖는다.
+	<script src="tutorial_1.js">
+		alert('Hello, World!'); 이 부분은 무시된다.
+	</script>
+3.	중바꿈이 있는 경우 대부분 암시적 세미콜론으로 해석하기에 세미콜론을 생략할 수 있는데, 이러한 동작 방식을 automatic semicolon insertion이라고 부른다.
+	alert('hello')
+	alert('world');
+	 예외상황)
+	alert("error occur")
+	[1, 2].forEach(alert); [...]앞에는 세미콜론이 있다고 가정하지 않는다. 고로 alert("error occur")[1,2].forEach(alert);로 해석된다.
+	
+	[엄격 모드]
+1.	ECMAScript5(ES5)에선 새로운 기능이 추가되고 기존 기능중 일부가 변경되었기에 호황성문제로 이를 default로 설정해두지 않았다. 고로 use strict지시자로 strict mode를 활성화했을때만 사용이 가능하다.
+	//normal script code
+	"use strict"; 이 키워드는 스크립트 최상단이 아닌 함수 본문 맨 앞에 올 수도 있다.(해당 함수만 엄격모드로 실행하기 위하여. 다만 스크립트 최상단에 해두는 것이 좋다_그렇지 않으면 활성화안될수도있음)
+	//modern script code
+2.	대부분의 브라우저 콘솔의 default세팅 역시 nonstrict기에 'use strict';를 먼저 입력하고 코드를 테스트해야한다.
+	만약 브라우저가 오래되어 use strict가 불가능하다면 아래처럼 wrapper로 감싸면 된다.
+	(function(){
+		'use strict';
+		//...
+		
+	})()
+3.	modern js에는 클래스나 코듈을 사용한다면 자동으로 엄격모드가 적용되기에 클래스나 모듈을 사용하고 있다면 굳이 붙일 필요가 없다.
+
+	[변수와 상수]_let, var, const
+1.	let으로 변수를 생성할 수 있다. 
+	let message='Hello';
+	message='World!';
+	alert(message);
+2.	var은 오래된 스크립트에서 사용한 let과 같은 변수이다. let을 주로 사용하자.(p.s Scala나 Erlang같은 funtional 프로그래밍 언어는 변숫값 변경을 금지한다. 이런 언어의 장점은 parallel compputation에서 부각된다.)
+	변수의 이름에 $와_이 사용될 수 있다. 또한 모든 언어를 변수명에 사용할 수 있다.
+	let $=1;
+	let _=2;
+	alert($+_);
+3.	이전에는 let없이도 단순하게 값을 할당해 변수를 생성하는 것이 가능했기에, 엄격모드를 제외하고 정의되지 않은 num에 5를 대입하는 num=5;가 가능했다.
+4.	상수는 값이 변화하지 않는 것이지만, 컴파일동안 값을 알 수 있는 것과 런타임 안에서 최초 할당 이후 값이 변하지 않는 상수도 있다.
+	ex) 
+	const birthday='18.04.1982';
+	const AGE=someCode(birthday);
+	
+	[자료형]
+1.	js는 자료형에 관계없이 모든 데이터일 수 있다. dynamically typed language! 
+	let message='Hello';
+	message=123456;
+2.	BigInt형을 통해 2^53-1보다 큰 수를 나타낼 수 있다. 리터럴n을 붙인다.(Firefox, Chrome, Edge, Safari에서만 지원)
+	const bigint=1234567890123456789012345678901234567890n;//n을 통해 표시
+3.	문자열은 큰따옴표, 작은 따옴표, 역따옴표를 사용하여 만들 수 있는데, ${variable}을 사용하여 문자열 안에 변수나 표현식을 삽입할 수 있다. (char형은 없고 문자형만 존재한다.)
+	let name='john';
+	alert("hello, ${name}!");
+	 표현식을 넣으려면 역따옴표를 사용해야한다.
+	alert(`the result of expression by using backtick: ${1+2}`);
+4.	사용자가 직접 비어있음을 표시하는 null과 비슷하게 변수에 값이 실수로 할당되지 않은 경우 undefined가 자동으로 할당된다.
+	let age;
+	alert(age);//undefined 출력
+5.	typeof연산자를 사용하여 인수의 자료형을 나타내는 문자열을 반환할 수 있다. 연산자처럼 typeof x로 사용하거나 함수처럼 typeof(x)로 사용할 수 있다.
+	typedef undefined;//undefined
+	typeof 0//number
+	typeof 10n//bigint
+	typeof true//boolean
+	typeof "foo"//string
+	typeof Symbol("id")//symbol
+	typeof Math//object
+	typeof null//object_실제 객체는 아닌데 옛 규칙의 호환성을 위해 남겨두었다.
+	typeof alert//function_함수형은 없고 객체형에 속하지만 호환성을 위해 남겨두었다. 근데 나름 요긴하게 쓰인다.
+6.	기본 자료형(8): 숫자형, bigint, 문자형, boolean형, null, undefined, 객체형, 심볼형(객체의 고유 식별자를 만들때 사용)
